@@ -1,0 +1,4 @@
+1 - add wagon
+2 - search wagon
+3 - count passengers and luggage
+4 - exit

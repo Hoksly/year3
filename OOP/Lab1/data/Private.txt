@@ -1,0 +1,5 @@
+{
+  "passengerCapacity": 5,
+  "luggageCapacity": 4000,
+  "comfortLevel": "VIP"
+}
