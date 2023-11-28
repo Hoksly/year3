@@ -1,0 +1,16 @@
+
+
+
+public class Main {
+    public static void main(String[] args) {
+
+        TaskB t2 = new TaskB();
+        TaskA t1 = new TaskA();
+
+
+        t1.run();
+        t2.run();
+
+
+    }
+}
