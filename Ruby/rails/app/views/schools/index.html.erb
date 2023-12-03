@@ -1,0 +1,68 @@
+<h1>Schools</h1>
+
+<ul>
+  <% @schools.each do |school| %>
+    <li>
+      <a href="<%= school_path(school) %>">
+        <%= school.number %>
+      </a>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Add School", new_school_path %>
+
+<table>
+  <tr>
+    <th>Surname</th>
+    <th>School</th>
+    <th>Grade</th>
+    <th>Place</th>
+
+  </tr>
+  <% @students.each do |student|  %>
+    <tr>
+      <th><%= student.surname%></th>
+      <th><%= student.school.number%></th>
+      <th><%= student.grade%></th>
+      <th><%= student.place%></th>
+    </tr>
+  <% end %>
+</table>
+
+<h3>Schools with prize places</h3>
+<table>
+  <% @prize_schools.each do |student| %>
+    <tr>
+      <th><%= student.school.number %></th>
+    </tr>
+  <% end %>
+</table>
+
+<h3>Most successful schools</h3>
+<table>
+  <tr>
+    <th>School</th>
+  </tr>
+  <% @most_successful_school.each do |student| %>
+    <tr>
+      <th><%= student.school.number %></th>
+    </tr>
+  <% end %>
+</table>
+
+<h3>First place winners</h3>
+<table>
+  <tr>
+    <th>Surname</th>
+    <th>School</th>
+    <th>Grade</th>
+  </tr>
+  <% @winners.each do |student| %>
+    <tr>
+      <th><%= student.surname %></th>
+      <th><%= student.school.number %></th>
+      <th><%= student.grade %></th>
+    </tr>
+  <% end %>
+</table>

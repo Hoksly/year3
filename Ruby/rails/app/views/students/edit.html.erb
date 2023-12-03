@@ -1,0 +1,20 @@
+<%= form_with model: [ @school, @school.students.edit ] do |form| %>
+  <p>
+    <%= form.label :surname %><br>
+    <%= form.text_field :student.surname %>
+  </p>
+
+  <p>
+    <%= form.label :grade %><br>
+    <%= form.select :grade, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], selected: student.grade %><br>
+  </p>
+
+  <p>
+    <%= form.label :place %><br>
+    <%= form.select :place, [1, 2, 3], selected: student.place%><br>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

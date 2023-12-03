@@ -1,0 +1,59 @@
+<p><%= @school.number %></p>
+
+<p><%= @school.address %></p>
+
+<ul>
+  <li><%= link_to "Edit", edit_school_path(@school) %></li>
+  <li><%= link_to "Destroy",school_path(@school), data: {
+    turbo_method: :delete,
+    turbo_confirm: "Are you sure?"
+  } %></li>
+</ul>
+
+<h2>Students</h2>
+<% @school.students.each do |student| %>
+  <p>
+    <strong>Surname:</strong>
+    <%= student.surname %>
+  </p>
+
+  <p>
+    <strong>grade:</strong>
+    <%= student.grade %>
+  </p>
+
+  <p>
+    <strong>place:</strong>
+    <%= student.place %>
+  </p>
+
+  <p>
+    <%= link_to "Delete Student", [student.school, student], data: {
+      turbo_method: :delete,
+      turbo_confirm: "Are you sure?"
+    } %>
+  </p>
+<% end %>
+
+
+<h2>Add a student:</h2>
+<%= form_with model: [ @school, @school.students.build ] do |form| %>
+  <p>
+    <%= form.label :surname %><br>
+    <%= form.text_field :surname %>
+  </p>
+
+  <p>
+    <%= form.label :grade %><br>
+    <%= form.select :grade, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], selected: 1 %><br>
+  </p>
+
+  <p>
+    <%= form.label :place %><br>
+    <%= form.select :place, [1, 2, 3], selected: 1%><br>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

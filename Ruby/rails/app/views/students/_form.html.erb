@@ -1,0 +1,31 @@
+<%= form_with model: student do |form| %>
+  <div>
+    <%= form.label :surname %><br>
+    <%= form.text_field :surname %>
+    <% student.errors.full_messages_for(:surname).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :school %><br>
+    <%= select_tag 'school_number', options_for_select(@schools.collect { |school| [school.number]}), class: "form-control" %><br>
+    <% student.errors.full_messages_for(:school).each do |message| %>
+      <div><%= message %></div>Sc
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :grade %><br>
+    <%= form.select :grade, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], selected: 1 %><br>
+  </div>
+
+  <div>
+    <%= form.label :place %><br>
+    <%= form.select :place, [1, 2, 3], selected: 1%><br>
+  </div>
+
+  <div>
+    <button class="btn"><%= form.submit %></button>
+  </div>
+<% end %>
