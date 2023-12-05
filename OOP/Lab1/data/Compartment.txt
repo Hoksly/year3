@@ -1,5 +1,0 @@
-{
-  "passengerCapacity": 30,
-  "luggageCapacity": 2000,
-  "comfortLevel": "Medium"
-}
