@@ -1,0 +1,11 @@
+Scheduling Type: Non-preemptive
+Scheduling Name: Shortest process next
+Simulation Run Time: 1000
+Mean: 1000
+Standard Deviation: 100
+Process #	CPU Time	IO Blocking	CPU Completed	CPU Blocked
+0		909 (ms)	0 (ms)		9 (ms)		10 times
+1		1120 (ms)	100 (ms)	991 (ms)	9 times
+2		1120 (ms)	200 (ms)	0 (ms)		0 times
+3		1120 (ms)	300 (ms)	0 (ms)		0 times
+4		1120 (ms)	400 (ms)	0 (ms)		0 times
