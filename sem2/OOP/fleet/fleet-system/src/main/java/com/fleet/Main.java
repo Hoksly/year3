@@ -1,19 +1,36 @@
 package com.fleet;
+import com.fleet.servlets.VehicleServlet;
+import jakarta.servlet.Servlet;
+import org.apache.catalina.Context;
+import org.apache.catalina.LifecycleException;
+import org.apache.catalina.startup.Tomcat;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import javax.servlet.http.HttpServlet;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+
 public class Main {
-    public static void main(String[] args) {
-        // Load Hibernate configuration from hibernate.cfg.xml
-        Configuration configuration = new Configuration();
-        configuration.configure("hibernate.cfg.xml");
+    public static void main(String[] args) throws LifecycleException {
+        String contextPath = "/fleet"; // Context path of your servlet
+        String servletMapping = "/vehicles"; // URL pattern of your servlet
 
-            SessionFactory sessionFactory = configuration.buildSessionFactory();
-            System.out.println("Database connection established successfully.");
+        Tomcat tomcat = new Tomcat();
+        tomcat.setPort(8080); // Port number for Tomcat
 
-            sessionFactory.close();
+        Context context = tomcat.addContext(contextPath, null);
+
+
+        VehicleServlet vehicleServlet = new VehicleServlet();
+
+
+
+        tomcat.addServlet(contextPath, "VehicleServlet", VehicleServlet.class.getName());
+        context.addServletMappingDecoded("/vehicleServlet", "VehicleServlet");
+
+
+
+        tomcat.start();
+        tomcat.getConnector();
+        tomcat.getServer().await();
+
     }
 }
