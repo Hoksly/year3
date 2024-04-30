@@ -6,7 +6,7 @@ def calc_function(x, b, g)
 
   if result2 == 0 || result4 == 0
     raise ZeroDivisionError, "divided by 0"
-  end
+  endgit 
 
   if result3 / result4 < -1 || result3 / result4 > 1
     raise Math::DomainError, "Math::acos argument out of range [-1, 1]"

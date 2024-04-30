@@ -1,5 +1,0 @@
-Choose option:
-1) Add new wagon
-2) Search wagon
-3) Delete wagon
-4) Exit
