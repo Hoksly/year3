@@ -7,18 +7,23 @@
 
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
 
 
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5435/your_database</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5435/fleet-database</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">postgres</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 
 
         <!-- Hibernate dialect for PostgreSQL -->
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
 
+        <mapping class="com.fleet.models.Driver"/>
+        <mapping class="com.fleet.models.Vehicle"/>
+        <mapping class="com.fleet.models.Request"/>
+        <mapping class="com.fleet.models.Flight"/>
+        <mapping class="com.fleet.models.User"/>
 
     </session-factory>
 </hibernate-configuration>

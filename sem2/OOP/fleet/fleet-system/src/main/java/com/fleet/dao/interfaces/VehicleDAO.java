@@ -5,7 +5,7 @@ import com.fleet.models.Vehicle;
 import java.util.List;
 
 public interface VehicleDAO {
-    void saveVehicle(Vehicle vehicle);
+    void saveVehicle(Vehicle vehicle) throws Exception;
 
     Vehicle getVehicleById(Long id);
 

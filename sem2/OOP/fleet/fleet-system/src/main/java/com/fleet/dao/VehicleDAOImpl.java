@@ -24,19 +24,19 @@ public class VehicleDAOImpl implements VehicleDAO {
         sessionFactory = configuration.buildSessionFactory();
     }
 
+    public VehicleDAOImpl(SessionFactory sessionFactory) {
+        Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
+        this.sessionFactory = configuration.buildSessionFactory();
+    }
+
     @Override
     public void saveVehicle(Vehicle vehicle) {
         Session session = sessionFactory.openSession();
-        Transaction transaction = null;
+        Transaction transaction;
         try {
             transaction = session.beginTransaction();
             session.saveOrUpdate(vehicle);
             transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -55,15 +55,26 @@ public class VehicleDAOImpl implements VehicleDAO {
         Session session = sessionFactory.openSession();
         List<Vehicle> vehicles;
         try {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Vehicle> criteriaQuery = builder.createQuery(Vehicle.class);
-            Root<Vehicle> root = criteriaQuery.from(Vehicle.class);
-            criteriaQuery.select(root);
-            Query<Vehicle> query = session.createQuery(criteriaQuery);
-            vehicles = query.getResultList();
+            vehicles = session.createQuery("FROM Vehicle").list();
+
         } finally {
             session.close();
         }
+        return vehicles;
+    }
+
+    public List<Vehicle> getVehicles(int count)
+    {
+        Session session = sessionFactory.openSession();
+        List<Vehicle> vehicles;
+        String countString = String.valueOf(count);
+        try {
+            vehicles = session.createQuery("FROM Vehicle ").setMaxResults(count).list();
+        }
+        finally {
+            session.close();
+        }
+
         return vehicles;
     }
 

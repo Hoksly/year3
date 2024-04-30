@@ -5,8 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "requests")
 public class Request {

@@ -6,8 +6,6 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "flights")
 public class Flight {
@@ -24,7 +22,7 @@ public class Flight {
     @Column(name = "actual_arrival_time")
     private Date actualArrivalTime;
 
-    @ManyToOne
+    @ManyToOne // In case flight is cancelled, the request can be reassigned to another driver
     @JoinColumn(name = "request_id")
     private Request request;
 

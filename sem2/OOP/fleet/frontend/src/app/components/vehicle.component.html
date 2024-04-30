@@ -1,0 +1,11 @@
+<div *ngIf="vehicles.length > 0">
+  <div *ngFor="let vehicle of vehicles">
+    <!-- Replace 'property' with the actual properties of your vehicle object -->
+    <p>{{ vehicle.id }}</p>
+    <p>{{ vehicle.model }}</p>
+    <!-- Add more properties as needed -->
+  </div>
+</div>
+<div *ngIf="vehicles.length === 0">
+  <p>No vehicles found.</p>
+</div>
