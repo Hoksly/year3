@@ -1,26 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { VehicleService } from './services/vehicle.service';
-import { Vehicle } from './models/vehicle';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
+  title = 'Fleet Service';
 
-  vehicles: Vehicle[] = [];
+  constructor(private router: Router) { }
 
-  constructor(private vehicleService: VehicleService) { }
-
-  ngOnInit(): void {
-    this.vehicleService.getVehicles().subscribe(
-      (data) => {
-        this.vehicles = data;
-      },
-      (error) => {
-        console.error('Error fetching vehicles:', error);
-      }
-    );
-  }
 }
