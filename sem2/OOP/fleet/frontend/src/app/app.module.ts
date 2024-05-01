@@ -11,7 +11,9 @@ import {HomeComponent} from "./components/home/home.component";
 import {HeaderComponent} from "./components/header/header.component";
 import {RideRequestComponent} from "./components/ride-request/ride-request.component"; // Import DataService
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import {MatNativeDateModule, MatOption} from '@angular/material/core';
+import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelect} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     RouterModule.forRoot(routes),
     FormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatFormField,
+    MatOption,
+    MatSelect,
+    MatFormFieldModule
 
   ],
   providers: [
