@@ -6,5 +6,5 @@ import {RideRequestComponent} from "./components/ride-request/ride-request.compo
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, title: 'Login page' },
   { path: '', component: HomeComponent },
-  { path: 'ride-request', component: RideRequestComponent, title: 'Ride request page'}
+  { path: 'ride', component: RideRequestComponent, title: 'Ride request page'}
 ];
