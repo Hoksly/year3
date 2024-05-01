@@ -1,0 +1,37 @@
+<form #driveForm="ngForm" (ngSubmit)="onFormSubmit(driveForm)" class="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <div class="mb-4">
+    <h2 class="text-2xl text-center font-bold mb-4">Request a Drive</h2>
+
+    <div class="mb-4">
+      <label for="pickupLocation" class="block text-gray-700 text-sm font-bold mb-2">Pickup Location</label>
+      <input type="text" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="pickupLocation" placeholder="Enter pickup location" [(ngModel)]="pickupLocation" name="pickupLocation">
+    </div>
+
+    <div class="mb-4">
+      <label for="dropoffLocation" class="block text-gray-700 text-sm font-bold mb-2">Dropoff Location</label>
+      <input type="text" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dropoffLocation" placeholder="Enter dropoff location" [(ngModel)]="dropoffLocation" name="dropoffLocation">
+    </div>
+
+    <div class="mb-4">
+      <label for="vehicleType" class="block text-gray-700 text-sm font-bold mb-2">Vehicle Type</label>
+      <select id="vehicleType" class="block appearance-none w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="selectedVehicleType" name="selectedVehicleType">
+        <option *ngFor="let type of vehicleTypes" [value]="type">{{type}}</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label  class="block text-gray-700 text-sm font-bold mb-2">When do you want to be picked up?</label>
+      <div class="relative">
+        <select class="block appearance-none w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="timeOption" name="timeOption">
+          <option value="now">Now</option>
+          <option value="specific">Specific Time</option>
+        </select>
+        <input *ngIf="timeOption === 'specific'" type="time" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline absolute inset-y-0 right-0" [(ngModel)]="specificTime" name="specificTime" placeholder="HH:mm">
+        <button *ngIf="timeOption === 'specific'" (click)="timeOption='now'" class="absolute inset-y-0 right-0">&#8592;</button>
+      </div>
+    </div>
+    <div class="flex items-center justify-center">
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
+    </div>
+  </div>
+</form>
