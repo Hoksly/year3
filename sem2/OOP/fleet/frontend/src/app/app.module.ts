@@ -15,6 +15,7 @@ import {MatNativeDateModule, MatOption} from '@angular/material/core';
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelect} from "@angular/material/select";
 import {KeycloakService} from "./services/keycloak.service";
+import {RideRequestService} from "./services/ride-request.service";
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {KeycloakService} from "./services/keycloak.service";
   ],
   providers: [
     DataService,
-    KeycloakService
+    KeycloakService,
+    RideRequestService
 
   ],
   bootstrap: [AppComponent],  // Bootstrap AppComponent
