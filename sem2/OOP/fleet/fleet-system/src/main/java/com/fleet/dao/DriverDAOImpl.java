@@ -86,11 +86,12 @@ public class DriverDAOImpl implements DriverDAO {
     }
 
     @Override
-    public void deleteDriver(Driver driver) {
+    public void deleteDriver(Long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
+            Driver driver = session.get(Driver.class, id);
             session.delete(driver);
             transaction.commit();
         } catch (Exception e) {
@@ -98,8 +99,6 @@ public class DriverDAOImpl implements DriverDAO {
                 transaction.rollback();
             }
             e.printStackTrace();
-        } finally {
-            session.close();
-        }
     }
+
 }

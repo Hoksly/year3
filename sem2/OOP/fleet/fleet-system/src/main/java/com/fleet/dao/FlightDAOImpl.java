@@ -85,11 +85,12 @@ public class FlightDAOImpl implements FlightDAO {
     }
 
     @Override
-    public void deleteFlight(Flight flight) {
+    public void deleteFlight(Long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
+            Flight flight = session.get(Flight.class, id);
             session.delete(flight);
             transaction.commit();
         } catch (Exception e) {
@@ -97,8 +98,7 @@ public class FlightDAOImpl implements FlightDAO {
                 transaction.rollback();
             }
             e.printStackTrace();
-        } finally {
-            session.close();
-        }
     }
+
+
 }

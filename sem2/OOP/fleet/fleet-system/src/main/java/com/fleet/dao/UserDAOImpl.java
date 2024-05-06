@@ -86,11 +86,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void deleteUser(User user) {
+    public void deleteUser(Long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
+            User user = session.get(User.class, id);
             session.delete(user);
             transaction.commit();
         } catch (Exception e) {
@@ -98,8 +99,7 @@ public class UserDAOImpl implements UserDAO {
                 transaction.rollback();
             }
             e.printStackTrace();
-        } finally {
-            session.close();
-        }
     }
+
+
 }

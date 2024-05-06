@@ -97,11 +97,12 @@ public class VehicleDAOImpl implements VehicleDAO {
     }
 
     @Override
-    public void deleteVehicle(Vehicle vehicle) {
+    public void deleteVehicle(Long vehicleId) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
+            Vehicle vehicle = session.get(Vehicle.class, vehicleId);
             session.delete(vehicle);
             transaction.commit();
         } catch (Exception e) {
@@ -113,4 +114,19 @@ public class VehicleDAOImpl implements VehicleDAO {
             session.close();
         }
     }
+
+    @Override
+    public Vehicle getVehicle(Long vehicleId) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Vehicle> criteria = builder.createQuery(Vehicle.class);
+        Root<Vehicle> root = criteria.from(Vehicle.class);
+        criteria.select(root).where(builder.equal(root.get("id"), vehicleId));
+        Query<Vehicle> query = session.createQuery(criteria);
+        Vehicle vehicle = query.getSingleResult();
+        session.close();
+        return vehicle;
+    }
+
+
 }

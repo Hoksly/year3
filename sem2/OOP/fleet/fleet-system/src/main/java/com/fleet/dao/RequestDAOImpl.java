@@ -86,11 +86,12 @@ public class RequestDAOImpl implements RequestDAO {
     }
 
     @Override
-    public void deleteRequest(Request request) {
+    public void deleteRequest(Long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
+            Request request = session.get(Request.class, id);
             session.delete(request);
             transaction.commit();
         } catch (Exception e) {
@@ -98,8 +99,7 @@ public class RequestDAOImpl implements RequestDAO {
                 transaction.rollback();
             }
             e.printStackTrace();
-        } finally {
-            session.close();
-        }
     }
+
+
 }
