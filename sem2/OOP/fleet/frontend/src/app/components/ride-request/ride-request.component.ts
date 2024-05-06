@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {RideRequestService} from "../../services/ride-request.service";
+import {RideRequest} from "../../models/ride-request";
+import {Observable} from "rxjs";
 
 export const PICKUP_DATE_FORMATS = {
   parse: {
@@ -36,8 +39,9 @@ export class RideRequestComponent implements OnInit{
   timeOption: string = 'Now'
   specificTime: string = '';
 
-  constructor(private dateAdapter: DateAdapter<Date>) {
+  constructor(private dateAdapter: DateAdapter<Date>, private rideRequestService: RideRequestService) {
     this.dateAdapter.setLocale('en-us'); // Monday, January 1
+    this.rideRequestService = rideRequestService;
   }
 
   onFormSubmit(form: NgForm): void {
@@ -45,7 +49,10 @@ export class RideRequestComponent implements OnInit{
     console.log(form.value);
 
     console.log(`Drive requested. Pickup: ${pickupLocation}, Dropoff: ${dropoffLocation},Option: ${this.timeOption} , When: ${time}`);
-    // Here you can send the drive request to your backend
+    let request = new RideRequest(0, pickupLocation, dropoffLocation, this.timeOption, this.specificTime, this.selectedVehicleType);
+    this.rideRequestService.createRideRequest(request).subscribe((response) => {  console.log(response); });
+
+
   }
 
   ngOnInit(): void {
