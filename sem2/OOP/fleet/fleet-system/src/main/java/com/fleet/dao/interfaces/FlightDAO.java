@@ -13,5 +13,5 @@ public interface FlightDAO {
 
     void updateFlight(Flight flight);
 
-    void deleteFlight(Flight flight);
+    void deleteFlight(Long id);
 }

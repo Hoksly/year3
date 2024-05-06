@@ -13,5 +13,5 @@ public interface RequestDAO {
 
     void updateRequest(Request request);
 
-    void deleteRequest(Request request);
+    void deleteRequest(Long id);
 }
