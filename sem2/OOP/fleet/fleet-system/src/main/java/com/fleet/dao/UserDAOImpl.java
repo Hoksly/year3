@@ -99,7 +99,7 @@ public class UserDAOImpl implements UserDAO {
                 transaction.rollback();
             }
             e.printStackTrace();
+        }
+
     }
-
-
 }

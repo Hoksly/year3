@@ -98,7 +98,7 @@ public class FlightDAOImpl implements FlightDAO {
                 transaction.rollback();
             }
             e.printStackTrace();
+        }
+
     }
-
-
 }

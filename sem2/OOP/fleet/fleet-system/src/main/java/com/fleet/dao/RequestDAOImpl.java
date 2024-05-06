@@ -99,7 +99,7 @@ public class RequestDAOImpl implements RequestDAO {
                 transaction.rollback();
             }
             e.printStackTrace();
+        }
+
     }
-
-
 }
