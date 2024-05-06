@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {KeycloakService} from "../../services/keycloak.service";
 
 @Component({
   selector: 'app-header', // Corrected here
@@ -8,10 +9,18 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
-  constructor(private router: Router) { }
+  username: string = "";
+  password: string = "";
+
+  constructor(private router: Router, public keycloakService: KeycloakService) {
+
+    this.router = router;
+    this.keycloakService = keycloakService;
+  }
+
 
   navigateToLogin(): void {
-    this.router.navigate(['/login']);
+    this.keycloakService.login( );
   }
   navigateToDrive(): void {
     this.router.navigate(['/drive']);
@@ -24,5 +33,16 @@ export class HeaderComponent {
   }
   navigateToRide(): void {
     this.router.navigate(['/ride']);
+  }
+  navigateToSignUp(): void {
+   this.keycloakService.register()
+  }
+
+  navigateToLogOut(): void {
+    this.keycloakService.logout();
+  }
+
+  navigateToAccount(): void {
+    this.keycloakService.register()
   }
 }

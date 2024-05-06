@@ -44,14 +44,11 @@ export class RideRequestComponent implements OnInit{
     const { pickupLocation, dropoffLocation, time, type } = form.value;
     console.log(form.value);
 
-    console.log(`Drive requested. Pickup: ${pickupLocation}, Dropoff: ${dropoffLocation}, When: ${time}`);
+    console.log(`Drive requested. Pickup: ${pickupLocation}, Dropoff: ${dropoffLocation},Option: ${this.timeOption} , When: ${time}`);
     // Here you can send the drive request to your backend
   }
 
   ngOnInit(): void {
   }
 
-  toggleTimeInput() {
-
-  }
 }
