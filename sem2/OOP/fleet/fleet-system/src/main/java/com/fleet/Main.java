@@ -1,11 +1,10 @@
 package com.fleet;
 import com.fleet.resolvers.CustomKeycloakConfigResolver;
-import com.fleet.servlets.LoginServlet;
+import com.fleet.servlets.*;
 import jakarta.servlet.http.HttpServlet;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
-import com.fleet.servlets.VehicleServlet;
 import org.apache.tomcat.util.descriptor.web.FilterDef;
 import com.fleet.filters.CorsFilter;
 import org.apache.tomcat.util.descriptor.web.FilterMap;
@@ -63,14 +62,20 @@ public class Main {
         // Add your servlet to the context
         tomcat.addServlet("", "VehicleServlet", new VehicleServlet());
         tomcat.addServlet("", "LoginServlet", new LoginServlet());
+        tomcat.addServlet("", "RideRequestServlet", new RequestServlet());
+        tomcat.addServlet("", "AuthServlet", new AuthServlet());
+        tomcat.addServlet("", "PublicKeyServlet", new AuthServlet());
+        tomcat.addServlet("", "UserSignUpServlet", new UserSignUpServlet());
 
 
 
         // Map your servlet to the context path
         context.addServletMappingDecoded("/vehicles/*", "VehicleServlet");
         context.addServletMappingDecoded("/login/*", "LoginServlet");
-
-
+        context.addServletMappingDecoded("/ride-request/*", "RideRequestServlet");
+        context.addServletMappingDecoded("/auth/*", "AuthServlet");
+        context.addServletMappingDecoded("/auth/public-key", "PublicKeyServlet");
+        context.addServletMappingDecoded("/user-sign-up", "UserSignUpServlet");
 
         tomcat.start();
         tomcat.getConnector();

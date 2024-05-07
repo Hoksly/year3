@@ -6,7 +6,7 @@ import {AppComponent} from "./app.component";
 import {LoginComponent} from "./components/login/login.component";
 import {RouterModule} from "@angular/router";
 import {routes} from "./app.routes";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HomeComponent} from "./components/home/home.component";
 import {HeaderComponent} from "./components/header/header.component";
 import {RideRequestComponent} from "./components/ride-request/ride-request.component"; // Import DataService
@@ -16,6 +16,9 @@ import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelect} from "@angular/material/select";
 import {KeycloakService} from "./services/keycloak.service";
 import {RideRequestService} from "./services/ride-request.service";
+import {UserSignUpComponent} from "./components/user-sign-up/user-sign-up.component";
+import {DriverSignUpComponent} from "./components/driver-sign-up/driver-sign-up.component";
+import {VehicleSignUpComponent} from "./components/vehicle-sign-up/vehicle-sign-up.component";
 
 @NgModule({
   declarations: [
@@ -24,6 +27,10 @@ import {RideRequestService} from "./services/ride-request.service";
     HomeComponent,
     HeaderComponent,
     RideRequestComponent,
+    UserSignUpComponent,
+    DriverSignUpComponent,
+    VehicleSignUpComponent
+
   ],
   imports: [
     BrowserModule,
@@ -35,7 +42,9 @@ import {RideRequestService} from "./services/ride-request.service";
     MatFormField,
     MatOption,
     MatSelect,
-    MatFormFieldModule
+    MatFormFieldModule,
+    ReactiveFormsModule
+
 
   ],
   providers: [

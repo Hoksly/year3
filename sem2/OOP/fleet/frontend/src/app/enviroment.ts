@@ -9,7 +9,12 @@ export class Environment {
     this._apiUrl = 'http://localhost:8080';
     this._endpoints = {
       vehicles: 'vehicles',
-      vehicle: 'vehicle'
+      vehicle: 'vehicle',
+      rideRequest: 'ride-request',
+      userSignUp: 'user-sign-up',
+      driverSignUp: 'driver-sign-up',
+      auth: 'auth',
+      publicKey: 'auth/public-key'
     };
   }
 

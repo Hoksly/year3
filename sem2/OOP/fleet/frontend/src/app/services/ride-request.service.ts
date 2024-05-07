@@ -9,7 +9,7 @@ import {RideRequest} from "../models/ride-request";
   providedIn: 'root'
 })
 export class RideRequestService {
-  private endpointUrl = ApiService.getEndpointUrl(Environment.getInstance().getEndpoint('ride-request')) ; // Update the URL
+  private endpointUrl = ApiService.getEndpointUrl(Environment.getInstance().getEndpoint('rideRequest')) ; // Update the URL
 
   constructor(private http: HttpClient) { }
 
@@ -18,7 +18,9 @@ export class RideRequestService {
   }
 
   createRideRequest(rideRequest: RideRequest): Observable<any> {
-    return this.http.post(ApiService.createUrl(this.endpointUrl), rideRequest);
+    console.log(rideRequest);
+    console.log(ApiService.createUrl(this.endpointUrl), { rideRequest })
+    return this.http.post<RideRequest>("http://localhost:8080/ride-request", rideRequest);
   }
 
   updateRideRequest(rideRequest: RideRequest): Observable<any> {

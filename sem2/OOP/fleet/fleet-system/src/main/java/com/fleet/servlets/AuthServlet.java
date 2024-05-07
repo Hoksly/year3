@@ -15,14 +15,6 @@ import java.util.Base64;
 public class AuthServlet extends HttpServlet {
     private AuthService authService;
 
-    @Override
-    public void init() throws ServletException {
-        try {
-            authService = new AuthService();
-        } catch (Exception e) {
-            throw new ServletException(e);
-        }
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,9 +28,15 @@ public class AuthServlet extends HttpServlet {
 
     private void handlePublicKey(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Send the public key to the client
-        PublicKey publicKey = authService.getPublicKey();
-        String publicKeyString = Base64.getEncoder().encodeToString(publicKey.getEncoded());
-        response.getWriter().write(publicKeyString);
+        try {
+            PublicKey publicKey = AuthService.getInstance().getPublicKey();
+            byte[] publicKeyBytes = publicKey.getEncoded();
+            String publicKeyBase64 = Base64.getEncoder().encodeToString(publicKeyBytes);
+            response.getWriter().write(publicKeyBase64);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+        }
     }
 
     @Override

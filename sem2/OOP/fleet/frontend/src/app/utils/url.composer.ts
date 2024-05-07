@@ -11,16 +11,17 @@ export class ApiService {
     return `${this.BASE_URL}/${endpoint}`;
   }
 
-  static createUrl(endpoint: string, params: {[key: string]: any} = {}): string {
-    let url = this.getEndpointUrl(endpoint);
+  static createUrl(endpointUrl: string, params: {[key: string]: any} = {}): string {
     if (params) {
       // Construct query parameters
       const queryParams = Object.keys(params)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
         .join('&');
+      if (queryParams) {
+        endpointUrl += `?${queryParams}`;
+      }
 
-      url += `?${queryParams}`;
     }
-    return url;
+    return endpointUrl;
   }
 }
