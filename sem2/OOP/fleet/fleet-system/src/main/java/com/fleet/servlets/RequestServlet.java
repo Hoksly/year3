@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "RequestServlet", urlPatterns = "/requests")
+@WebServlet(name = "RequestServlet", urlPatterns = "/ride-request")
 public class RequestServlet extends HttpServlet {
-    private RideRequestService     requestService;
+    private RideRequestService requestService;
 
     @Override
     public void init() throws ServletException {
@@ -28,9 +28,11 @@ public class RequestServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Handle POST request to create a new request
+        // extract request parameters from the request
+        System.out.println("POST request received");
         Request requestObj = new Request(/* parse request parameters */);
-        requestService.saveRideRequest(requestObj);
+
+        // requestService.saveRideRequest(requestObj);
     }
 
     @Override
