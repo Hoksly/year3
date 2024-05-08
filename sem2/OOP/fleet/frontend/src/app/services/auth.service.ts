@@ -4,7 +4,7 @@ import { JSEncrypt } from 'jsencrypt';
 import {firstValueFrom, Observable} from "rxjs";
 import {ApiService} from "../utils/url.composer";
 import {Environment} from "../enviroment";
-import { AES, enc } from "crypto-js";
+import { enc, lib, AES } from "crypto-js";
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +36,9 @@ export class AuthService {
 
   public async encryptMessage(message: string): Promise<string> {
     const symmetricKey = this.generateSymmetricKey();
-    const encryptedData = AES.encrypt(message, symmetricKey).toString();
+    const encryptedData = AES.encrypt(message, "fzES4MGmY1c19vW6").toString();
 
+    console.log("Encrypted data AES: ", encryptedData)
     try {
       const publicKey = await this.getPublicKey();
       this.jsEncrypt.setPublicKey(publicKey);
@@ -55,14 +56,21 @@ export class AuthService {
 
   private generateSymmetricKey(): string {
     // Generate a random 256-bit (32-byte) key
-    const keySizeBytes = 32;
+    const keySizeBytes = 16;
     const randomBytes = new Uint8Array(keySizeBytes);
     window.crypto.getRandomValues(randomBytes);
-    // Convert the random bytes to a Base64-encoded string
-    const key = enc.Base64.stringify(randomBytes);
 
-    return key;
+    // Convert the random bytes to a hexadecimal string
+    let key = '';
+    randomBytes.forEach((byte) => {
+      key += ('0' + byte.toString(16)).slice(-2);
+    });
+
+    console.log("Symmetric key: ", key)
+    return "fzES4MGmY1c19vW6";
   }
+
+
 
   async signUpUser(userData: any): Promise<Observable<any>> {
     const endpoint = ApiService.getEndpointUrl(Environment.getInstance().getEndpoint('userSignUp'));

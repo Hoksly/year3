@@ -41,7 +41,7 @@ public class UserSignUpServlet extends HttpServlet {
         try {
             // Decrypt the symmetric key using RSA private key
             String decryptedKey = AuthService.decryptSymmetricKey(encryptedKey);
-
+            System.out.println("Decrypted key: " + decryptedKey);
             // Decrypt the data using the decrypted symmetric key
             String decryptedData = AuthService.decryptData(encryptedData, decryptedKey);
 
