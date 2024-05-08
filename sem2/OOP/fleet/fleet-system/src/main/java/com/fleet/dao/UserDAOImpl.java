@@ -43,7 +43,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getUserById(String userId) {
+    public User getUserById(Long userId) {
         Session session = sessionFactory.openSession();
         User user = session.get(User.class, userId);
         session.close();
