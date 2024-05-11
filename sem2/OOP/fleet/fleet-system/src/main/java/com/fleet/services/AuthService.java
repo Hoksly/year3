@@ -1,13 +1,14 @@
 package com.fleet.services;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
+
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,9 +16,15 @@ import java.security.KeyFactory;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
+
 public class AuthService {
     private static AuthService instance;
     private static KeyPair keyPair;
+    private static final String ALGORITHM = "AES";
+    private static Key AESKey;
 
     private AuthService() throws Exception {
 
@@ -103,4 +110,64 @@ public class AuthService {
 
         return new String(decryptedDataBytes);
     }
+
+
+        public String encryptAES(final String valueEnc, final String secKey) {
+            String encryptedVal = null;
+
+            try {
+                final Key key = generateKeyFromString(secKey);
+                final Cipher c = Cipher.getInstance(ALGORITHM);
+                c.init(Cipher.ENCRYPT_MODE, key);
+                final byte[] encValue = c.doFinal(valueEnc.getBytes());
+                encryptedVal = Base64.getEncoder().encodeToString(encValue);
+            } catch(Exception ex) {
+                System.out.println("The Exception is=" + ex);
+            }
+
+            return encryptedVal;
+        }
+
+        public String decryptAES(final String encryptedValue) {
+            String decryptedValue = null;
+
+            try {
+
+                final Cipher c = Cipher.getInstance(ALGORITHM);
+                c.init(Cipher.DECRYPT_MODE, AESKey);
+                final byte[] decorVal = Base64.getDecoder().decode(encryptedValue);
+                final byte[] decValue = c.doFinal(decorVal);
+                decryptedValue = new String(decValue);
+            } catch(Exception ex) {
+                System.out.println("The Exception is=" + ex);
+            }
+
+            return decryptedValue;
+        }
+
+        private Key generateKeyFromString(final String secKey) throws Exception {
+            final byte[] keyVal = Base64.getDecoder().decode(secKey);
+            final Key key = new SecretKeySpec(keyVal, ALGORITHM);
+            return key;
+        }
+
+    public static String generateStringFromKey(final Key key) {
+        StringBuilder sb;
+        sb = new StringBuilder();
+        for(byte b : key.getEncoded()) {
+            sb.append(b);
+            sb.append(" ");
+        }
+        return sb.toString();
+    }
+
+        public String getAESKey() throws NoSuchAlgorithmException {
+            // Generate a new AES key
+          if (AESKey == null) {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(128);
+            AESKey = keyGen.generateKey();
+          }
+          return generateStringFromKey(AESKey);
+        }
 }
