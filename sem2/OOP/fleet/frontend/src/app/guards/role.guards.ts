@@ -10,14 +10,16 @@ class PermissionsService {
   constructor(private keycloakService: KeycloakService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+
     console.log('route.data', route.data)
     const expectedRole = route.data && route.data['expectedRole'];
     const roles = this.keycloakService.getUserRoles();
     const hasRole = roles.includes(expectedRole);
 
-    if (!hasRole) {
+
+    if (!hasRole ) {
       console.log('You are not authorized to access this page');
-      this.keycloakService.login()// Redirect to unauthorized page or any other page
+      this.keycloakService.login() // Redirect to unauthorized page or any other page
     }
 
     return hasRole;

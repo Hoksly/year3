@@ -6,7 +6,7 @@ export class Environment {
 
   private constructor() {
     this._production = false;
-    this._apiUrl = 'http://localhost:8080';
+    this._apiUrl = 'http://localhost:8443';
     this._endpoints = {
       vehicles: 'vehicles',
       vehicle: 'vehicle',
@@ -14,7 +14,8 @@ export class Environment {
       userSignUp: 'user-sign-up',
       driverSignUp: 'driver-sign-up',
       auth: 'auth',
-      publicKey: 'auth/public-key'
+      publicKey: 'auth/public-key',
+      aesKey: 'auth/aes-key'
     };
   }
 

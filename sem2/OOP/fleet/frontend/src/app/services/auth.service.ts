@@ -11,6 +11,7 @@ import { enc, lib, AES } from "crypto-js";
 })
 export class AuthService {
   private publicKey: string = "";
+  private aesKey: lib.WordArray = lib.WordArray.random(16);
   private jsEncrypt = new JSEncrypt();
   private endpoint: string;
 
@@ -34,40 +35,38 @@ export class AuthService {
     }
   }
 
+
   public async encryptMessage(message: string): Promise<string> {
-    const symmetricKey = this.generateSymmetricKey();
-    const encryptedData = AES.encrypt(message, "fzES4MGmY1c19vW6").toString();
+
+    const aesKey = await this.getAESKey();
+    const wordArray = enc.Base64.parse(aesKey.toString());
+    console.log("AES Key: ", wordArray)
+    const encryptedData = AES.encrypt(message, aesKey.toString()).toString();
 
     console.log("Encrypted data AES: ", encryptedData)
     try {
-      const publicKey = await this.getPublicKey();
-      this.jsEncrypt.setPublicKey(publicKey);
-      const encryptedKey = this.jsEncrypt.encrypt(symmetricKey);
+     // const publicKey = await this.getPublicKey();
+      // this.jsEncrypt.setPublicKey(publicKey);
+      // const encryptedKey = this.jsEncrypt.encrypt(this.aesKey);
 
-      return JSON.stringify({
-        data: encryptedData,
-        key: encryptedKey
-      });
+      return JSON.stringify(encryptedData);
     } catch (error) {
       console.error('Error encrypting message:', error);
       throw error;
     }
   }
 
-  private generateSymmetricKey(): string {
-    // Generate a random 256-bit (32-byte) key
-    const keySizeBytes = 16;
-    const randomBytes = new Uint8Array(keySizeBytes);
-    window.crypto.getRandomValues(randomBytes);
+  protected getAESKey(): Promise<lib.WordArray> {
+      if (false) {
+      return Promise.resolve(this.aesKey);
+    } else {
+      let url = ApiService.createUrl(ApiService.createUrl(ApiService.getEndpointUrl(Environment.getInstance().getEndpoint('aesKey')), {  }));
+      console.log(url);
+      const aesKey$ = this.http.get(url, {responseType: 'text'});
+      console.log("AES Key: ", aesKey$)
+      return Promise.resolve(lib.WordArray.random(16));
+    }
 
-    // Convert the random bytes to a hexadecimal string
-    let key = '';
-    randomBytes.forEach((byte) => {
-      key += ('0' + byte.toString(16)).slice(-2);
-    });
-
-    console.log("Symmetric key: ", key)
-    return "fzES4MGmY1c19vW6";
   }
 
 
@@ -75,14 +74,14 @@ export class AuthService {
   async signUpUser(userData: any): Promise<Observable<any>> {
     const endpoint = ApiService.getEndpointUrl(Environment.getInstance().getEndpoint('userSignUp'));
     console.log((JSON.stringify(userData)));
-    const encryptedData = await this.encryptMessage(JSON.stringify(userData));
-    console.log("Encrypted message: ", encryptedData)
-    return this.http.post(endpoint, encryptedData);
+
+    return this.http.post(endpoint, JSON.stringify(userData));
 
   }
 
   async signUpDriver(driverData: any): Promise<Observable<any>> {
     const endpoint = ApiService.getEndpointUrl('driverSignUp');
+
     const encryptedData = await this.encryptMessage(JSON.stringify(driverData));
     return this.http.post(endpoint, encryptedData);
   }

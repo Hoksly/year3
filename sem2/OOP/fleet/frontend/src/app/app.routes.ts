@@ -10,7 +10,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'ride', component: RideRequestComponent, title: 'Ride request page', canActivate: [AuthGuard], data: { expectedRole: 'client_user' }},
   { path: 'drive', component: RideRequestComponent, title: 'Ride request page', canActivate: [AuthGuard], data: { expectedRole: 'client_driver' }},
-  { path: 'unauthorized', component: RideRequestComponent, title: 'Ride request page'},
+  { path: 'unauthorized', component: HomeComponent, title: 'Home page ruturned unauthorized' },
   { path: 'sign-up/user', component: UserSignUpComponent, title: 'User sign up page' },
   { path: 'sign-up/driver', component: UserSignUpComponent, title: 'Driver sign up page' }
 

@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
 
   protected router: Router;
-  constructor(router: Router) { this.router = router;}
+  protected keycloakService: any;
+  constructor(router: Router, ) { this.router = router;}
 
   ngOnInit(): void {
   }

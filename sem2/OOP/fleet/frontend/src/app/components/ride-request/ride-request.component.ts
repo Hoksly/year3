@@ -4,6 +4,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import {RideRequestService} from "../../services/ride-request.service";
 import {RideRequest} from "../../models/ride-request";
 import {Observable} from "rxjs";
+import {KeycloakService} from "../../services/keycloak.service";
 
 export const PICKUP_DATE_FORMATS = {
   parse: {
@@ -34,23 +35,34 @@ export class RideRequestComponent implements OnInit{
   timeOptions: string[] = ['Now', 'Choose a time'];
   vehicleTypes: string[] = ['Economy', 'Comfort', 'Business'];
   selectedVehicleType: string = 'Economy';
+  fare: number = 0;
+  message: string = "";
 
   time: any;
   timeOption: string = 'Now'
   specificTime: string = '';
 
-  constructor(private dateAdapter: DateAdapter<Date>, private rideRequestService: RideRequestService) {
-    this.dateAdapter.setLocale('en-us'); // Monday, January 1
+  constructor(private dateAdapter: DateAdapter<Date>, private rideRequestService: RideRequestService, private keycloakService: KeycloakService) {
+    this.dateAdapter.setLocale('en-us');
     this.rideRequestService = rideRequestService;
   }
 
-  onFormSubmit(form: NgForm): void {
+  async onFormSubmit(form: NgForm): Promise<void> {
     const { pickupLocation, dropoffLocation, time, type } = form.value;
     console.log(form.value);
 
     console.log(`Drive requested. Pickup: ${pickupLocation}, Dropoff: ${dropoffLocation},Option: ${this.timeOption} , When: ${time}`);
-    let request = new RideRequest(0, pickupLocation, dropoffLocation, this.timeOption, this.specificTime, this.selectedVehicleType);
-    this.rideRequestService.createRideRequest(request).subscribe((response) => {  console.log(response); });
+    const request = new RideRequest(0, pickupLocation, dropoffLocation, this.message,"" ,this.fare, this.selectedVehicleType);
+
+    try {
+      const user = await this.keycloakService.loadUser();
+      request.user = user;
+      console.log(user);
+      this.rideRequestService.createRideRequest(request).subscribe((response) => {  console.log(response); });
+    } catch (error) {
+      console.error('Failed to load user', error);
+    }
+  
 
 
   }
