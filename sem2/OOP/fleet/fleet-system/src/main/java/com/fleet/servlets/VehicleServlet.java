@@ -1,6 +1,5 @@
 package com.fleet.servlets;
 
-import com.fleet.services.AuthService;
 import com.fleet.services.JsonService;
 import com.fleet.services.VehicleService;
 import com.fleet.models.Vehicle;

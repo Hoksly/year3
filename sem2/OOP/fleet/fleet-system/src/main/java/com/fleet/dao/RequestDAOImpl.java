@@ -3,10 +3,12 @@ package com.fleet.dao;
 import com.fleet.models.Request;
 import com.fleet.models.Request;
 import com.fleet.dao.interfaces.RequestDAO;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -30,7 +32,7 @@ public class RequestDAOImpl implements RequestDAO {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.saveOrUpdate(request);
+            session.save(request);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -41,6 +43,21 @@ public class RequestDAOImpl implements RequestDAO {
             session.close();
         }
     }
+
+    public boolean doesRequestExistWithSameOriginAndDestination(Request newRequest) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Request.class);
+        criteria.add(Restrictions.eq("user", newRequest.getUser()));
+        criteria.add(Restrictions.eq("origin", newRequest.getOrigin()));
+        criteria.add(Restrictions.eq("destination", newRequest.getDestination()));
+        criteria.add(Restrictions.eq("isActive", newRequest.getIsActive()));
+
+
+        Request existingRequest = (Request) criteria.uniqueResult();
+        session.close();
+        return existingRequest != null;
+    }
+
 
     @Override
     public Request getRequestById(Long id) {

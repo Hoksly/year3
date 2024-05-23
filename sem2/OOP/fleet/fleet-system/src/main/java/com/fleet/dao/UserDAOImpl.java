@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.saveOrUpdate(user);
+            session.save(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -101,5 +101,26 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        Session session = sessionFactory.openSession();
+        User user = null;
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+            Root<User> root = criteriaQuery.from(User.class);
+            criteriaQuery.select(root).where(builder.equal(root.get("username"), username));
+            Query<User> query = session.createQuery(criteriaQuery);
+            if(!query.getResultList().isEmpty())
+            {
+                user = query.getSingleResult();
+            }
+        }
+        finally {
+            session.close();
+        }
+        return user;
     }
 }

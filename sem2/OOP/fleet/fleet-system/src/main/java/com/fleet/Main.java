@@ -19,7 +19,7 @@ public class Main {
 
         Tomcat tomcat = new Tomcat();
 
-        tomcat.setPort(8080); // Port number for Tomcat
+        tomcat.setPort(8443); // Port number for Tomcat
 
         Context context = tomcat.addContext("", null);
 
@@ -65,6 +65,7 @@ public class Main {
         tomcat.addServlet("", "RideRequestServlet", new RequestServlet());
         tomcat.addServlet("", "AuthServlet", new AuthServlet());
         tomcat.addServlet("", "PublicKeyServlet", new AuthServlet());
+        tomcat.addServlet("", "AesKeyServlet", new AuthServlet());
         tomcat.addServlet("", "UserSignUpServlet", new UserSignUpServlet());
 
 
@@ -75,6 +76,7 @@ public class Main {
         context.addServletMappingDecoded("/ride-request/*", "RideRequestServlet");
         context.addServletMappingDecoded("/auth/*", "AuthServlet");
         context.addServletMappingDecoded("/auth/public-key", "PublicKeyServlet");
+        context.addServletMappingDecoded("/auth/aes-key", "AesKeyServlet");
         context.addServletMappingDecoded("/user-sign-up", "UserSignUpServlet");
 
         tomcat.start();

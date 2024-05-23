@@ -1,7 +1,8 @@
 package com.fleet.servlets;
 
-import com.fleet.services.AuthService;
-import lombok.SneakyThrows;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fleet.models.UserRegistrationModel;
+import com.fleet.services.KeycloakAdminService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import org.json.JSONObject;
 
 @WebServlet(name = "DriverSignUpServlet", urlPatterns = "/driver-sign-up")
 public class UserSignUpServlet extends HttpServlet {
@@ -32,23 +32,12 @@ public class UserSignUpServlet extends HttpServlet {
                 sb.append(line);
             }
         }
+        System.out.println(sb.toString());
 
-        // Parse the JSON object containing the encrypted data and key
-        JSONObject json = new JSONObject(sb.toString());
-        String encryptedData = json.getString("data");
-        String encryptedKey = json.getString("key");
+        ObjectMapper objectMapper = new ObjectMapper();
+        UserRegistrationModel user = objectMapper.readValue(sb.toString(), UserRegistrationModel.class);
 
-        try {
-            // Decrypt the symmetric key using RSA private key
-            String decryptedKey = AuthService.decryptSymmetricKey(encryptedKey);
-            System.out.println("Decrypted key: " + decryptedKey);
-            // Decrypt the data using the decrypted symmetric key
-            String decryptedData = AuthService.decryptData(encryptedData, decryptedKey);
-
-            System.out.println("Decrypted message: " + decryptedData);
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
+        KeycloakAdminService serv = new KeycloakAdminService();
+        serv.createKeycloakUser(user);
     }
 }

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import com.google.gson.Gson;
+import java.io.BufferedReader;
 
 @WebServlet(name = "RequestServlet", urlPatterns = "/ride-request")
 public class RequestServlet extends HttpServlet {
@@ -27,12 +29,24 @@ public class RequestServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // extract request parameters from the request
-        System.out.println("POST request received");
-        Request requestObj = new Request(/* parse request parameters */);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {// In your servlet or controller method
 
-        // requestService.saveRideRequest(requestObj);
+        Gson gson = new Gson();
+        StringBuilder sb = new StringBuilder();
+        String line;
+        try (BufferedReader reader = request.getReader()) {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+        }
+
+        Request requestObj = gson.fromJson(sb.toString(), Request.class);
+
+
+        System.out.println(requestObj.getOrigin());
+
+        requestObj.setIsActive(true);
+        requestService.saveRideRequest(requestObj);
     }
 
     @Override

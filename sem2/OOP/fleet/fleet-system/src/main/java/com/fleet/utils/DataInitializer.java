@@ -195,21 +195,21 @@ public class DataInitializer {
     public static List<User> initializeUsers() {
         List<User> userList = new ArrayList<>();
 
-        userList.add(createDummyUser("user1", "JohnDoe", "password1", "john@example.com", "1234567890"));
-        userList.add(createDummyUser("user2", "JaneSmith", "password2", "jane@example.com", "0987654321"));
-        userList.add(createDummyUser("user3", "AliceJohnson", "password3", "alice@example.com", "5555555555"));
-        userList.add(createDummyUser("user4", "BobBrown", "password4", "bob@example.com", "6666666666"));
-        userList.add(createDummyUser("user5", "EmilyDavis", "password5", "emily@example.com", "7777777777"));
+        userList.add(createDummyUser( "JohnDoe", "john@example.com", "1234567890"));
+        userList.add(createDummyUser( "JaneSmith", "jane@example.com", "0987654321"));
+        userList.add(createDummyUser("AliceJohnson", "alice@example.com", "5555555555"));
+        userList.add(createDummyUser("BobBrown", "bob@example.com", "6666666666"));
+        userList.add(createDummyUser( "EmilyDavis", "emily@example.com", "7777777777"));
 
         return userList;
     }
 
     // Method to create a dummy user
-    private static User createDummyUser(String userId, String username, String password, String email, String phoneNumber) {
+    private static User createDummyUser(String username, String email, String phoneNumber) {
         User user = new User();
-        user.setUserId(userId);
+
         user.setUsername(username);
-        user.setPassword(password);
+
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         // You can set other properties as needed
