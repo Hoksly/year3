@@ -1,0 +1,4 @@
+The provided automaton is non-deterministic due to the presence of epsilon (ε) transitions. 
+These transitions enable the automaton to potentially follow different state sequences for the same input string. 
+To convert this automaton to a deterministic one, we need to eliminate the ε-transitions while preserving the accepted language. 
+This language can be represented by the regular expression (xz)*(x|y).
