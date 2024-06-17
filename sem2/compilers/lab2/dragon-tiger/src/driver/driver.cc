@@ -1,6 +1,6 @@
 #include <boost/program_options.hpp>
 #include <iostream>
-
+#include "../ast/ast_evaluator.hh"
 #include "../ast/ast_dumper.hh"
 #include "../parser/parser_driver.hh"
 #include "../utils/errors.hh"
@@ -15,6 +15,7 @@ int main(int argc, char **argv) {
   ("trace-parser", "enable parser traces")
   ("trace-lexer", "enable lexer traces")
   ("verbose,v", "be verbose")
+  ("eval,e", "evaluate the parsed AST")
   ("input-file", po::value(&input_files), "input Tiger file");
 
   po::positional_options_description positional;
@@ -42,12 +43,21 @@ int main(int argc, char **argv) {
   if (!parser_driver.parse(input_files[0])) {
     utils::error("parser failed");
   }
-
+  if (vm.count("eval") && vm.count("dump-ast")) {
+    utils::error("two ASTs can't be used simultaneously, specify either --eval (-e) or --dump-ast option");
+  }
   if (vm.count("dump-ast")) {
     ast::ASTDumper dumper(&std::cout, vm.count("verbose") > 0);
     parser_driver.result_ast->accept(dumper);
     dumper.nl();
   }
+
+    if(vm.count("eval")) {
+    ast::ASTEvaluator evaluator;
+    int32_t result = parser_driver.result_ast->accept(evaluator);
+    std::cout << result << std::endl;
+  }
+  
   delete parser_driver.result_ast;
   return 0;
 }
